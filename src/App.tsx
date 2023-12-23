@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import data from '@/data.json';
+import { ArrowDownCircleIcon } from '@heroicons/react/16/solid';
+import { ReactNode } from 'react';
+import { Animator, Fade, Move, ScrollContainer, ScrollPage, Sticky, batch } from 'react-scroll-motion';
 
-function App() {
-  const [count, setCount] = useState(0)
+const ScrollAnimation = batch(Fade(), Move());
 
+const ScrollSection = ({ children }: { children: ReactNode }) => {
+  return <ScrollPage>
+    <Animator animation={ScrollAnimation}>
+      {children}
+    </Animator>
+  </ScrollPage>
+
+}
+
+
+const ScrollIndicator = () => {
+  return <div className="fixed bottom-5 flex w-full items-center justify-center">
+    <ArrowDownCircleIcon className="w-10 animate-bounce" />
+  </div>
+}
+
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ScrollContainer snap="mandatory">
+      <ScrollSection>
+        <ScrollIndicator />
+        <div className="flex h-screen flex-col items-center justify-center">
+          <h1 className="text-center font-major text-6xl uppercase">
+            Manquit Rewind 2023
+          </h1>
+        </div>
+      </ScrollSection>
+    </ScrollContainer>
   )
 }
 
