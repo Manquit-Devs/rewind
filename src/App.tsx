@@ -23,16 +23,27 @@ const ScrollIndicator = () => {
 
 const App = () => {
   return (
-    <ScrollContainer snap="mandatory">
-      <ScrollSection>
-        <ScrollIndicator />
-        <div className="flex h-screen flex-col items-center justify-center">
-          <h1 className="text-center font-major text-6xl uppercase">
-            Manquit Rewind 2023
-          </h1>
-        </div>
-      </ScrollSection>
-    </ScrollContainer>
+    <>
+      <ScrollIndicator />
+      <ScrollContainer snap="mandatory">
+        <ScrollSection>
+          <div className="flex h-screen flex-col items-center justify-center">
+            <h1 className="text-center font-major text-6xl uppercase">
+              Manquit Rewind 2023
+            </h1>
+          </div>
+        </ScrollSection>
+        <ScrollSection>
+          <div className="flex w-full flex-col items-center justify-center p-4">
+            <h1 className="text-4xl font-semibold uppercase">
+              Os usuários mais ativos
+            </h1>
+            <div>
+            </div>
+          </div>
+        </ScrollSection>
+      </ScrollContainer>
+    </>
   )
 }
 
