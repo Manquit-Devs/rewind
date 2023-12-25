@@ -6,8 +6,10 @@ const DISCORD_TOKEN = Bun.env.DISCORD_TOKEN;
 const AVATARS_FOLDER = '../public/avatars';
 const DISCORD_USER_API_URL = 'https://discord.com/api/v10/users';
 const DISCORD_AVATAR_URL = 'https://cdn.discordapp.com/avatars';
+const DEFAULT_DISCORD_AVATAR_URL = 'https://ia903204.us.archive.org/4/items/discordprofilepictures/discordblue.png';
 
 const userIds = new Set<string>();
+let downloadCounter = 0;
 
 for(const data of DISCORD_SERVER_DATA.geral.fluxo_usuarios){
   userIds.add(data.ID_USER);
@@ -34,10 +36,14 @@ for(const userId of userIds) {
       }
     });
 
+
     if(response.ok){
-      const discordUser = await response.json() as {avatar: string, username: string;};
-      const downloadedAvatarFile = await fetch(`${DISCORD_AVATAR_URL}/${userId}/${discordUser.avatar}`);
+      const discordUser = await response.json() as {avatar?: string, username: string;};
+      const avatarHash = discordUser.avatar;
+      const avatarUrl = avatarHash ? `${DISCORD_AVATAR_URL}/${userId}/${avatarHash}` : DEFAULT_DISCORD_AVATAR_URL;
+      const downloadedAvatarFile = await fetch(avatarUrl);
       await Bun.write(avatarFilePath, await downloadedAvatarFile.blob());
+      downloadCounter++;
       console.log(`Avatar from user ${userId}-${discordUser.username} saved on ${avatarFilePath}`);
       continue;
     }
@@ -45,4 +51,6 @@ for(const userId of userIds) {
     console.log(`Failed to download avatar from user ${userId}`);
   }
 }
+
+console.log(`${userIds.size} ids detected, ${downloadCounter} avatars downloaded`);
 
