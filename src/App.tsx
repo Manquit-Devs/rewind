@@ -1,7 +1,8 @@
 import { ArrowDownCircleIcon } from '@heroicons/react/16/solid';
 import { ReactNode, useRef } from 'react';
-import { Animator, Fade, Move, ScrollContainer, ScrollPage, Sticky, batch } from 'react-scroll-motion';
-import { mostActiveUsers } from './data';
+import { Animator, Fade, Move, ScrollContainer, ScrollPage, batch } from 'react-scroll-motion';
+import { usersSortedByActivity } from './data';
+import { Avatar } from './components/Avatar';
 
 const ScrollAnimation = batch(Fade(), Move());
 
@@ -30,8 +31,9 @@ const Cover = () => {
 }
 
 const MostActiveUsers = () => {
-  const top10 = mostActiveUsers.slice(0, 10);
-  const top10WithPercentage = top10.map(user => ({ ...user, percentage: 100 * user.value / top10[0].value }));
+  const top10 = usersSortedByActivity.slice(0, 10);
+  const top10WithPercentage = top10.map(user => ({ ...user, percentage: 100 * user.activityValue / top10[0].activityValue }));
+
   return <div className="flex h-full w-full flex-col items-center justify-between gap-4 p-4 md:p-20">
     <div className="flex flex-col items-center gap-2">
       <h1 className="text-xl font-semibold uppercase md:text-4xl">
@@ -43,25 +45,25 @@ const MostActiveUsers = () => {
     </div>
     <div className="flex gap-10">
       <div className="flex h-96 flex-col items-center justify-end">
-        <img src={`/avatars/${top10[1].id}.png`} className="mb-4 h-24 w-24" />
+        <Avatar user={top10[1]} className="mb-4 h-24 w-24" />
         <div style={{ height: `calc(65% - 96px)` }} className="w-14 bg-[#CACACA] text-blue-950" />
-        <span className="font-semibold" >2º - {top10[1].name}</span>
+        <span className="text-center font-semibold" >2º - {top10[1].name}</span>
       </div>
       <div className="flex h-96 flex-col items-center justify-end">
-        <img src={`/avatars/${top10[0].id}.png`} className="mb-4 h-24 w-24" />
+        <Avatar user={top10[0]} className="mb-4 h-24 w-24" />
         <div style={{ height: `calc(100% - 96px)` }} className="w-14 justify-center bg-[#FFD900]" />
-        <span className="font-semibold" >1º - {top10[0].name}</span>
+        <span className="text-center font-semibold" >1º - {top10[0].name}</span>
       </div>
       <div className="flex h-96 flex-col items-center justify-end">
-        <img src={`/avatars/${top10[2].id}.png`} className="mb-4 h-24 w-24" />
+        <Avatar user={top10[2]} className="mb-4 h-24 w-24" />
         <div style={{ height: `calc(55% - 96px)` }} className="w-14 bg-[#e5994c] text-blue-950" />
-        <span>3º - {top10[2].name}</span>
+        <span className="tenxt-center font-semibold">3º - {top10[2].name}</span>
       </div>
     </div>
     <div className="flex gap-1">
       {top10WithPercentage.slice(3, 10).map((user, index) => <div key={user.id} className="flex flex-col items-center justify-end gap-2">
-        <img src={`/avatars/${user.id}.png`} className="h-10 w-10 md:h-24 md:w-24" />
-        <span className="text-sm md:text-base">{index + 4}º - {user.name}</span>
+        <Avatar user={user} className="h-10 w-10 md:h-24 md:w-24" />
+        <span className="text-center text-sm md:text-base">{index + 4}º - {user.name}</span>
       </div>)}
     </div>
   </div>
@@ -75,24 +77,24 @@ const App = () => {
       <div className="fixed flex h-full flex-col items-center justify-center blur-md saturate-0">
         <div className="inline-flex w-full flex-nowrap">
           <ul className="flex animate-infinite-scroll items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-8">
-            {mostActiveUsers.map(user => <li>{
-              <img src={`/avatars/${user.id}.png`} className="h-96 w-96 opacity-10" />
+            {usersSortedByActivity.map(user => <li>{
+              <img src={`/avatars/${user.id}.png`} userId={user.id} className="h-96 w-96 opacity-10" />
             }</li>)}
           </ul>
           <ul className="flex animate-infinite-scroll items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-8">
-            {mostActiveUsers.map(user => <li>{
+            {usersSortedByActivity.map(user => <li>{
               <img src={`/avatars/${user.id}.png`} className="h-96 w-96 opacity-10" />
             }</li>)}
           </ul>
         </div>
         <div className="inline-flex w-full flex-nowrap">
           <ul className="flex animate-reverse-infinite-scroll items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-8">
-            {mostActiveUsers.reverse().map(user => <li key={user.id}>{
+            {usersSortedByActivity.reverse().map(user => <li key={user.id}>{
               <img src={`/avatars/${user.id}.png`} className="h-96 w-96 opacity-10" />
             }</li>)}
           </ul>
           <ul className="flex animate-reverse-infinite-scroll items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-8">
-            {mostActiveUsers.reverse().map(user => <li key={user.id}>{
+            {usersSortedByActivity.reverse().map(user => <li key={user.id}>{
               <img src={`/avatars/${user.id}.png`} className="h-96 w-96 opacity-10" />
             }</li>)}
           </ul>
