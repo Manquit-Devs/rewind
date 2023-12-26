@@ -218,7 +218,7 @@ const FilmMakers = () => {
     .map((muttedByMod) => ({ id: muttedByMod.ID_USER, name: muttedByMod.USER_NAME }));
 
   return <SectionTemplt
-    title={<SectionTitle><VideoCameraIcon className="h-14 w-14 md:h-20 md:w-20" />Os Cieanastas</SectionTitle>}
+    title={<SectionTitle><VideoCameraIcon className="h-14 w-14 md:h-20 md:w-20" />Os Cineastas</SectionTitle>}
     subtitle="Os verdadeiros cineastas do servidor, não saem da sala Cinema, verdadeiros usuários do letterbox e otários que só assistem filme, serie e anime (Mensagem gerada por IA*)">
     <Podium values={theFilmMakers} />
   </SectionTemplt>
