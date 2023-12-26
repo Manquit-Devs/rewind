@@ -344,6 +344,7 @@ const App = () => {
   useEffect(() => {
     const bgSound = new Audio('/sound/got-a-friend.mp3');
     bgSound.loop = true;
+    bgSound.volume = 0.25;
 
     const play = () => {
       bgSound.play();
