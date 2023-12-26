@@ -1,7 +1,7 @@
 import { ImgHTMLAttributes, ReactNode, useState } from "react";
 import Modal from "./Modal";
 import { User, usersDataMappedById } from "@/data";
-import { BellSlashIcon, CalendarIcon, ComputerDesktopIcon, HashtagIcon, NoSymbolIcon, PlayCircleIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/16/solid";
+import { BellSlashIcon, CalendarIcon, ComputerDesktopIcon, EyeSlashIcon, HashtagIcon, NoSymbolIcon, PlayCircleIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/16/solid";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +12,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { months } from "@/utils";
 
 ChartJS.register(
   CategoryScale,
@@ -22,11 +23,6 @@ ChartJS.register(
   Legend
 );
 
-const months = [...Array(12)].map((_, month) => {
-  const date = new Date();
-  date.setMonth(month);
-  return date.toLocaleString('default', { month: 'long' });
-});
 
 const getAvatarUrl = (id: string) => `/avatars/${id}.png`;
 
@@ -108,6 +104,15 @@ const AvatarModal = ({ user, onClose }: { user: User, onClose: () => void }) => 
             <SingleValueItem>{userData.userMuttedByMod.COUNT}</SingleValueItem>
           </div>
         }
+        {userData?.joinOffline &&
+          <div>
+            <Title>
+              <EyeSlashIcon className="h-5" />
+              Vezes que entrou no server com status offline
+            </Title>
+            <SingleValueItem>{userData.joinOffline.COUNT}</SingleValueItem>
+          </div>
+        }
       </div>
       <div>
         <Title>
@@ -116,7 +121,7 @@ const AvatarModal = ({ user, onClose }: { user: User, onClose: () => void }) => 
         </Title>
         <Bar data={{
           labels: months,
-          datasets: [{ label: "Mês", data: userData?.monthActivity ?? [], backgroundColor: "#367ff7" }]
+          datasets: [{ label: "Atividade por Mês", data: userData?.monthActivity ?? [], backgroundColor: "#367ff7" }]
         }}
           options={{
             responsive: true,
