@@ -1,5 +1,4 @@
 import {
-  ArrowDownCircleIcon,
   ArrowTrendingUpIcon,
   BellSlashIcon,
   CalendarDaysIcon,
@@ -15,7 +14,7 @@ import {
   SpeakerXMarkIcon,
   VideoCameraIcon
 } from '@heroicons/react/16/solid';
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Animator, Fade, Move, ScrollContainer, ScrollPage, batch } from 'react-scroll-motion';
 import {
   ServerTotalActivityByMonths,
